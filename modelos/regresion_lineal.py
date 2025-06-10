@@ -9,6 +9,7 @@ from typing import Any
 from analisis import AnalisisDescriptivo
 
 sm_res = sm.regression.linear_model.RegressionResultsWrapper
+# Es lo que retorna un modelo ajustado de sm, ignorar.
 
 
 class RegresionLineal:
@@ -16,8 +17,8 @@ class RegresionLineal:
     Documentar.
     '''
 
-    def __init__(self, x: np.ndarray[Any, Any],
-                 y: np.ndarray[Any, Any]) -> None:
+    def __init__(self, x: list[Any] | np.ndarray[Any, Any] | pd.DataFrame,
+                 y: list[Any] | np.ndarray[Any, Any] | pd.DataFrame) -> None:
         self.x = x
         self.y = y
         self.resultado = None
@@ -151,7 +152,7 @@ class RegresionLineal:
             print("Los Intervalos de confianza para los"
                   f"estimadores de beta son: {IC}")
 
-    def p_valor_betas(self, b_i=0, i=1) -> np.float64 | None:
+    def p_valor_betas(self, b_i=0, i=1) -> np.ndarray[Any, Any] | None:
         '''
         Es una funcion que retorna el p-valor de un test de hipotesis:
         H_0: beta_i = k vs H_1 beta_i != k
