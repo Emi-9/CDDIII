@@ -1,4 +1,6 @@
 import numpy as np
+from scipy.stats import norm
+import matplotlib.pyplot as plt
 from typing import Any
 # aaa
 
@@ -90,3 +92,33 @@ class AnalisisDescriptivo:
                     break
 
         return res
+
+    def qqplot(self) -> None:
+        '''
+        Grafica el QQ-Plot para los datos instanciados en la clase
+        '''
+        x_ord = np.sort(self.data)
+        n = len(self.data)
+
+        # Media y desviación estándar muestral
+        media = np.mean(x_ord)
+        desvio = np.std(x_ord, ddof=1)
+        cuantiles_muestrales = (x_ord - media) / desvio
+
+        # Cuantiles teóricos
+        probabilidades = (np.arange(1, n + 1) - 0.5) / n
+        cuantiles_teoricos = norm.ppf(probabilidades)
+
+        # Graficar QQ-plot
+        plt.figure(figsize=(6, 6))
+        plt.scatter(cuantiles_teoricos, cuantiles_muestrales,
+                    color="blue", marker="o", label="Datos")
+        plt.plot([min(cuantiles_teoricos), max(cuantiles_teoricos)],
+                 [min(cuantiles_teoricos), max(cuantiles_teoricos)],
+                 linestyle="-", color="red", label="Línea 45°")
+
+        plt.xlabel("Cuantiles teóricos")
+        plt.ylabel("Cuantiles muestrales")
+        plt.legend()
+        plt.title("QQ-Plot")
+        plt.show()
