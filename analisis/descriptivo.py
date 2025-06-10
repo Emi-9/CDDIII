@@ -2,7 +2,6 @@ import numpy as np
 from scipy.stats import norm
 import matplotlib.pyplot as plt
 from typing import Any
-# aaa
 
 
 class AnalisisDescriptivo:
