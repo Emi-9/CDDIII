@@ -25,9 +25,6 @@
     - **regresion_logistica**:
         - `completar` ()
 
-- **tests**:
-    - <u>completar<u>
-
 - **utils**:
     - **resumen_numerico**:
         - `ver` (genera un resumen numerico del conjunto de datos)
