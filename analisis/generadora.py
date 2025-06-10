@@ -38,13 +38,11 @@ class GeneradoraDeDatos:
             term2 = (1/10) * sum(term_mid)
             return term1 + term2
         else:
-            print("Tipo INCORRECTO")
+            print("Tipo INCORRECTO!")
             return np.array([])  # Callate pylance
 
     def azar(self, mu: float = 0, sigma: float = 1,
              type: str = "normal") -> np.ndarray[Any, Any] | int:
-        # Segun pylance existe la posibilidad de que retorne int
-        # Al menos asi se calla
         '''
         - x => cualquier iterable que contenga los puntos donde
                se va a evaluar.
@@ -53,6 +51,8 @@ class GeneradoraDeDatos:
         - sigma => amplitud de la distribucion (varianza).
         - type => normal, uniforme o BS.
         '''
+        # Segun pylance existe la posibilidad de que retorne int
+        # Al menos asi se calla
         if type == "normal":
             return norm.rvs(loc=mu, scale=sigma, size=self.q)
         elif type == "uniforme":
@@ -67,5 +67,5 @@ class GeneradoraDeDatos:
                 y[ind] = np.random.normal(j/2-1, 1/10, size=len(ind))
             return y
         else:
-            print("Tipo INCORRECTO")
+            print("Tipo INCORRECTO!")
             return np.array([])  # Callate pylance
