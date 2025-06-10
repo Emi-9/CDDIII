@@ -3,7 +3,6 @@
 ## Importantes:
 
 - Agregar calculo de media, mediana, desvio, etc.
-- Terminar y testear generadora.
 - Pasar de collab a git:
 1) Regresion Lineal Simple
 2) Regresion Lineal Multiple
