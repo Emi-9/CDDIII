@@ -15,7 +15,7 @@
         - `QQplot` (genera un QQ-Plot)
     - **generadora**:
         - `teorica` (genera un conjunto de datos siguiedo una distribucion exacta)
-        - `azar` (genera un conjunto de datos siguiendo una distribucion muestral)
+        - `azar` (genera un conjunto muestral de datos siguiendo una distribucion)
 
 - **modelos**:
     - **regresion_lineal_simple**:
@@ -26,10 +26,11 @@
         - `completar` ()
 
 - **tests**:
-    - __completar__
+    - <u>completar<u>
 
 - **utils**:
-    - __completar__
+    - **resumen_numerico**:
+        - `ver` (genera un resumen numerico del conjunto de datos)
 
 ## Instalación:
 
