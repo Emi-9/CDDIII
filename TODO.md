@@ -2,11 +2,8 @@
 
 ## Importantes:
 
-- Pasar de collab a git:
-1) Regresion Lineal Simple
-2) Regresion Lineal Multiple
-3) Regresion Logistica
-4) Shapiro y tests
+- Terminar de testear y organizar todo lo de regresion.
+- Terminar README.
 
 ## Detalles:
 
