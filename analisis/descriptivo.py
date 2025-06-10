@@ -4,7 +4,11 @@ from typing import Any
 
 
 class AnalisisDescriptivo:
-    '''Documentar'''
+    '''
+    Primero se instancia (toma el conjunto de datos), luego:
+    - densidad => estimacion de densidad por kernels
+    - evalua_histograma => autoexplicativa
+    '''
 
     def __init__(self, data: list[Any] | np.ndarray[Any, Any]) -> None:
         self.data = data
@@ -32,10 +36,14 @@ class AnalisisDescriptivo:
         b = (1-u) * ((u >= 0) & (u <= 1))
         return sum(a+b)
 
-    def densidad(self, x: list[Any] | np.ndarray[Any, Any], h: int,
+    def densidad(self, x: list[Any] | np.ndarray[Any, Any], h: float,
                  kernel: str = "uniforme") -> np.ndarray[Any, Any]:
-        '''Documentar'''
-
+        '''
+        - x => cualquier iterable que contenga los puntos sobre donde
+               se va a evaluar.
+        - h => ancho de los bins.
+        - kernel => gaussiano, uniforme, cuadratico o triangular.
+        '''
         n = len(self.data)
         density = np.zeros(len(x))
 
@@ -59,8 +67,12 @@ class AnalisisDescriptivo:
     def evalua_histograma(self, h: int,
                           x: list[Any] | np.ndarray[Any, Any]
                           ) -> np.ndarray[Any, Any]:
-        '''Documentar'''
-
+        '''
+        - h => ancho de bins.
+        - x => cualquier iterable que contenga los puntos sobre donde
+               se va a evaluar.
+        '''
+        # TODO: pylance jode, intentar corregir eso
         bins = np.arange(min(self.data)-h, max(self.data)+h+1, h)
         frec = np.zeros(len(bins)-1)
         res = np.zeros(len(x))
