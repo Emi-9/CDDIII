@@ -1,16 +1,28 @@
-# Mi Módulo Python
+# Ciencia de Datos III:
 
-Este es un ejemplo de módulo en Python que contiene herramientas estadísticas.
+ Librería creada para el segundo parcial de la materia.
 
 ## Descripción
 
-Este módulo proporciona funciones simples para...
+ Este módulo proporciona clases / funciones / herramientas simples para:
 
 ## Características
 
-- Clase AnalisisDescriptivo: ...
-- Clase Regresion: ...
+- Analisis Descriptivo.
+- Generacion de Datos.
+- Regresión Lineal Simple.
+- Regresión Lineal Multiple.
+- Regresión Logística.
 
 ## Instalación
 
+ Cloná el repositorio y usalo.
+
 ## Ejemplo de uso
+
+- Generar datos al azar que sigan una distribucion normal (o cualquier otro tipo).
+- Gráficos cuántil cuántil (QQ-Plot).
+- Curva ROC.
+- Ajustar y usar modelos de diferentes tipos (principalmente regresion).
+- Calcular intervalos de confianza.
+- Etc.
