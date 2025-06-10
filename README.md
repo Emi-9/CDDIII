@@ -26,3 +26,7 @@
 - Ajustar y usar modelos de diferentes tipos (principalmente regresion).
 - Calcular intervalos de confianza.
 - Etc.
+
+## Otros
+
+- 🚀 [TODO](TODO.md)
