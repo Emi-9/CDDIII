@@ -93,7 +93,7 @@ class AnalisisDescriptivo:
 
         return res
 
-    def qqplot(self) -> None:
+    def QQplot(self) -> None:
         '''
         Grafica el QQ-Plot para los datos instanciados en la clase
         '''
