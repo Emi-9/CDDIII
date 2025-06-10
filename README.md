@@ -9,27 +9,27 @@
 ## Estructura / Características:
 
 - **analisis**:
-    - | -> **descriptivo**:
-        - | `densidad` (estimacion de densidades por kernel)
-        - | *`evalua_histograma`* ()
-        - | _QQplot_ (genera un QQ-Plot)
-    - | -> **generadora**:
-        - | _teorica_ (genera un conjunto de datos siguiedo una distribucion exacta)
-        - | _azar_ (genera un conjunto de datos siguiendo una distribucion muestral)
+    - **descriptivo**:
+        - `densidad` (estimacion de densidades por kernel)
+        - `evalua_histograma` ()
+        - `QQplot` (genera un QQ-Plot)
+    - **generadora**:
+        - `teorica` (genera un conjunto de datos siguiedo una distribucion exacta)
+        - `azar` (genera un conjunto de datos siguiendo una distribucion muestral)
 
-- modelos:
-    | -> regresion_lineal_simple:
-        | *
-    | -> regresion_lineal_multiple:
-        | *
-    | -> regresion_logistica:
-        | *
+- **modelos**:
+    - **regresion_lineal_simple**:
+        - `completar` ()
+    - **regresion_lineal_multiple**:
+        - `completar` ()
+    - **regresion_logistica**:
+        - `completar` ()
 
-- tests:
-    | -> 
+- **tests**:
+    - __completar__
 
-- utils:
-    | ->
+- **utils**:
+    - __completar__
 
 ## Instalación:
 
