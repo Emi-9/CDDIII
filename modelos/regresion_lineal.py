@@ -8,6 +8,8 @@ from statsmodels.stats.diagnostic import het_breuschpagan
 from typing import Any
 from analisis import AnalisisDescriptivo
 
+sm_res = sm.regression.linear_model.RegressionResultsWrapper
+
 
 class RegresionLineal:
     '''
@@ -23,7 +25,7 @@ class RegresionLineal:
     def __main__(self):
         pass
 
-    def ajustar_modelo(self):
+    def ajustar_modelo(self) -> sm_res:
         '''
         Se ajuta el modelo de Regresión.
         '''
@@ -32,17 +34,17 @@ class RegresionLineal:
         self.resultado = modelo
         return modelo
 
-    def parametros_modelo(self):
+    def parametros_modelo(self) -> pd.Series | np.ndarray[Any, Any]:
         '''
         Retorna las estimaciones de los betas del modelo.
         '''
         if self.resultado is None:
             print("Falta ajustar el modelo")
-            return None
+            return np.array([])
         else:
             return self.resultado.params
 
-    def ajustado_y(self) -> np.ndarray[Any, Any] | pd.Series:
+    def ajustado_y(self) -> pd.Series | np.ndarray[Any, Any]:
         '''
         Calula el valor predicho a partir del modelo ajustado
         de regresion lineal.
@@ -53,7 +55,7 @@ class RegresionLineal:
         else:
             return self.resultado.fittedvalues
 
-    def residuos(self) -> np.ndarray[Any, Any] | pd.Series:
+    def residuos(self) -> pd.Series | np.ndarray[Any, Any]:
         '''
         Calcula los residuos de entre los valores reales (y)
         y los valores dados por la recta d eminimos cuadrados (y_sombrero)
@@ -64,16 +66,15 @@ class RegresionLineal:
         else:
             return self.resultado.resid
 
-    def estim_varianza_del_error(self):
+    def estim_varianza_del_error(self) -> np.float64:
         '''
         Calcula la estimacion de la varianza del error.
         '''
         n = len(self.x)
         resid = self.residuos()
-        var = np.sum(resid**2) / (n-2)
-        return var
+        return np.sum(resid**2) / (n-2)
 
-    def r_cuadrado(self):
+    def r_cuadrado(self) -> np.float64 | None:
         '''
         Calcula (R^2) el coeficiente de determinación y, es una medida de la
         proporción de la variabilidad que explica el modelo ajustado.
@@ -82,22 +83,22 @@ class RegresionLineal:
         '''
         if self.resultado is None:
             print("Falta ajustar el modelo")
+            return None
         else:
-            r_squared = self.resultado.rsquared
-            return r_squared
+            return self.resultado.rsquared
 
-    def r_ajustado(self):
+    def r_ajustado(self) -> np.float64 | None:
         '''
         Calcula el R² ajustado, es una corrección de  R^2  para permitir
         la comparación de modelos con distinta cantidad de regresoras.
         '''
         if self.resultado is None:
             print("Falta ajustar el modelo")
+            return None
         else:
-            adjusted_r_squared = self.resultado.rsquared_adj
-            return adjusted_r_squared
+            return self.resultado.rsquared_adj
 
-    def supuesto_normalidad(self):
+    def supuesto_normalidad(self) -> None:
         '''
         Se verifica el supuesto de normalidad de los residuos, de manera
         grafica usando qqplot y de manera analítica usando shapiro test, usando
@@ -112,7 +113,7 @@ class RegresionLineal:
         stat, p_valor1 = shapiro(residuo)
         print("\nValor p normalidad:", p_valor1)
 
-    def supuestos_homocedasticidad(self):
+    def supuestos_homocedasticidad(self) -> None:
         '''
         Se verifica el supuesto de homocedasticidad de los residuos, de
         manera grafica y analítica por medio del p-valor.
@@ -129,13 +130,14 @@ class RegresionLineal:
         plt.ylabel("Residuos")
         plt.title("Gráfico de Residuos vs. Valores Predichos")
         plt.show()
+
         # Homocedasticidad test:
         X = sm.add_constant(self.x)  # matriz de diseño
         bp_test = het_breuschpagan(residuo, X)  # X es la matriz de diseño
         bp_value = bp_test[1]
         print("\nValor p Homocedasticidad:", bp_value)
 
-    def int_confianza_betas(self, alfa):
+    def int_confianza_betas(self, alfa) -> None:
         '''
         funcion inicial: int_confianza_beta1(alfa, beta_1,
         var_estimada, t_crit)
