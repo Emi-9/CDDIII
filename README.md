@@ -8,14 +8,14 @@
 
 ## Estructura / Características:
 
-- analisis:
-    | -> descriptivo:
-        | * densidad (estimacion de densidades por kernel)
-        | * evalua_histograma ()
-        | * QQplot (genera un QQ-Plot)
-    | -> generadora:
-        | * teorica (genera un conjunto de datos siguiedo una distribucion exacta)
-        | * azar (genera un conjunto de datos siguiendo una distribucion muestral)
+- **analisis**:
+    - | -> **descriptivo**:
+        - | `densidad` (estimacion de densidades por kernel)
+        - | *`evalua_histograma`* ()
+        - | _QQplot_ (genera un QQ-Plot)
+    - | -> **generadora**:
+        - | _teorica_ (genera un conjunto de datos siguiedo una distribucion exacta)
+        - | _azar_ (genera un conjunto de datos siguiendo una distribucion muestral)
 
 - modelos:
     | -> regresion_lineal_simple:
