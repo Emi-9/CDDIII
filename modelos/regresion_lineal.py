@@ -42,7 +42,7 @@ class RegresionLineal:
         else:
             return self.resultado.params
 
-    def ajustado_y(self) -> np.ndarray[Any, Any] | pd.Series[Any]:
+    def ajustado_y(self) -> np.ndarray[Any, Any] | pd.Series:
         '''
         Calula el valor predicho a partir del modelo ajustado
         de regresion lineal.

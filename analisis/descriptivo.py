@@ -13,7 +13,7 @@ class AnalisisDescriptivo:
     '''
 
     def __init__(self, data: Union[list[Any], np.ndarray[Any, Any],
-                 pd.Series[Any]]) -> None:
+                 pd.Series]) -> None:
         self.data = data
 
     def __main__(self):
