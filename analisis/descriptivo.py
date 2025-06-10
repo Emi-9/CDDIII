@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from scipy.stats import norm
 import matplotlib.pyplot as plt
 from typing import Any
@@ -11,7 +12,8 @@ class AnalisisDescriptivo:
     - evalua_histograma => autoexplicativa
     '''
 
-    def __init__(self, data: list[Any] | np.ndarray[Any, Any]) -> None:
+    def __init__(self, data: list[Any] | np.ndarray[Any, Any] |
+                 pd.Series[Any]) -> None:
         self.data = data
 
     def __main__(self):

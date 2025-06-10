@@ -10,8 +10,11 @@ class RegresionLinealSimple(RegresionLineal):
     Clase regresion Lineal Simple, hereda funciones de Regresion Lineal.
     """
 
-    def __init__(self, x, y):
+    def __init__(self, x, y) -> None:
         super().__init__(x, y)
+
+    def __main__(self):
+        pass
 
     def estimacion_betas(self):
         """

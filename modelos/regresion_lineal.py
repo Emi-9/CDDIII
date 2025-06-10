@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
 import scipy.stats as stats
@@ -41,25 +42,25 @@ class RegresionLineal:
         else:
             return self.resultado.params
 
-    def ajustado_y(self):
+    def ajustado_y(self) -> np.ndarray[Any, Any] | pd.Series[Any]:
         '''
         Calula el valor predicho a partir del modelo ajustado
         de regresion lineal.
         '''
         if self.resultado is None:
             print("Falta ajustar el modelo")
-            return None
+            return np.array([])
         else:
             return self.resultado.fittedvalues
 
-    def residuos(self):
+    def residuos(self) -> np.ndarray[Any, Any] | pd.Series:
         '''
         Calcula los residuos de entre los valores reales (y)
         y los valores dados por la recta d eminimos cuadrados (y_sombrero)
         '''
         if self.resultado is None:
             print("Falta ajustar el modelo")
-            return None
+            return np.array([])
         else:
             return self.resultado.resid
 
@@ -105,8 +106,7 @@ class RegresionLineal:
         residuo = self.residuos()
         # grafica:
         rg = AnalisisDescriptivo(residuo)
-        # miqqplot(residuo)
-        rg.miqqplot()
+        rg.QQplot()
 
         # test de normalidad:
         stat, p_valor1 = shapiro(residuo)
