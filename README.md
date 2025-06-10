@@ -2,31 +2,49 @@
 
  Librería creada para el segundo parcial de la materia.
 
-## Descripción
+## Descripción:
 
- Este módulo proporciona clases / funciones / herramientas simples para:
+ Este módulo proporciona clases / funciones / herramientas simples para calculos estadisticos. La estructura y sus respectivas funciones: ⬇️
 
-## Características
+## Estructura / Características:
 
-- Analisis Descriptivo.
-- Generacion de Datos.
-- Regresión Lineal Simple.
-- Regresión Lineal Multiple.
-- Regresión Logística.
+- analisis:
+    | -> descriptivo:
+        | * densidad (estimacion de densidades por kernel)
+        | * evalua_histograma ()
+        | * QQplot (genera un QQ-Plot)
+    | -> generadora:
+        | * teorica (genera un conjunto de datos siguiedo una distribucion exacta)
+        | * azar (genera un conjunto de datos siguiendo una distribucion muestral)
 
-## Instalación
+- modelos:
+    | -> regresion_lineal_simple:
+        | *
+    | -> regresion_lineal_multiple:
+        | *
+    | -> regresion_logistica:
+        | *
+
+- tests:
+    | -> 
+
+- utils:
+    | ->
+
+## Instalación:
 
  Cloná el repositorio y usalo.
 
-## Ejemplo de uso
+## Ejemplo de uso:
 
 - Generar datos al azar que sigan una distribucion normal (o cualquier otro tipo).
 - Gráficos cuántil cuántil (QQ-Plot).
 - Curva ROC.
 - Ajustar y usar modelos de diferentes tipos (principalmente regresion).
 - Calcular intervalos de confianza.
-- Etc.
+- Mas ejemplos e implementaciones en el link de abajo.
 
-## Otros
+## Otros:
 
 - 🚀 [TODO](TODO.md)
+- 📚 [Ejemplos de Uso](EjemplosDeUso.py)
