@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from analisis import AnalisisDescriptivo
+from analisis.descriptivo import AnalisisDescriptivo
 
 @pytest.fixture
 def datos():
