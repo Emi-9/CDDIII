@@ -1,0 +1,42 @@
+# ChatGPT me dijo de esto para que no se me llene de "mugre".
+# Me había empezado a subir cualquier cosa innecesaria.
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Entornos virtuales
+venv/
+env/
+.venv/
+.env/
+
+# Archivos temporales de editores
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Checkpoints de Jupyter
+.ipynb_checkpoints/
+
+# Logs o resultados
+*.log
+*.out
+*.tmp
+
+# Archivos de pruebas o de resultados
+*.csv
+*.tsv
+*.zip
+*.tar.gz
