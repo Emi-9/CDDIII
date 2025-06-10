@@ -13,4 +13,5 @@
 ## Detalles:
 
 - Terminar los #TODO de analisis/descriptivo.
+- Por alguna razon los docstrings de analisis/generadora no se muestran en collab.
 - Checkear ortografía de README y agregar emojis.
