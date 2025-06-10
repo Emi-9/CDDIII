@@ -135,7 +135,7 @@ class RegresionLineal:
         X = sm.add_constant(self.x)  # matriz de diseño
         bp_test = het_breuschpagan(residuo, X)  # X es la matriz de diseño
         bp_value = bp_test[1]
-        print("\nValor p Homocedasticidad:", bp_value)
+        print("\nValor p Homocedasticidad: ", bp_value)
 
     def int_confianza_betas(self, alfa) -> None:
         '''
@@ -151,7 +151,7 @@ class RegresionLineal:
             print("Los Intervalos de confianza para los"
                   f"estimadores de beta son: {IC}")
 
-    def p_valor_betas(self, b_i=0, i=1):
+    def p_valor_betas(self, b_i=0, i=1) -> np.float64 | None:
         '''
         Es una funcion que retorna el p-valor de un test de hipotesis:
         H_0: beta_i = k vs H_1 beta_i != k
@@ -162,21 +162,19 @@ class RegresionLineal:
         '''
         if self.resultado is None:
             print("Falta ajustar el modelo")
+            return None
         else:
             res = self.resultado
             SE_est = res.bse
             coef_xi = res.params[i]
             # valor de t observado:
             t_obs = (coef_xi - b_i) / SE_est[i]
-
             # el pvalor:
             X = res.model.exog  # para recuperar la matriz de diseño del modelo
             grados_libertad = len(X[:, i]) - 2
-            p_valor = 2 * stats.t.sf(abs(t_obs), df=grados_libertad)
+            return 2 * stats.t.sf(abs(t_obs), df=grados_libertad)
 
-            return p_valor
-
-    def resumen_grafico(self, z):
+    def resumen_grafico(self, z) -> None:
         '''
         Grafico de dispersion de una variable cuantitativa predictora vs
         respuesta.

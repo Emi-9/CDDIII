@@ -24,6 +24,9 @@ class RegresionLogistica:
         self.y_test = None
         self.resultado = None
 
+    def __main__(self):
+        pass
+
     def separar_data_train_test(self, seed=10, ptje_test=0.20):
         """
         Funcion que separa data, de manera aleatoria, en set de train y test.
