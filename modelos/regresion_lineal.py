@@ -14,7 +14,19 @@ sm_res = sm.regression.linear_model.RegressionResultsWrapper
 
 class RegresionLineal:
     '''
-    Primero se instancia (toma ).
+    Primero se instancia (toma x: predictora e y: respuesta), luego:
+    - ajustar_modelo =>
+    - parametros_modelo =>
+    - val_ajustados =>
+    - residuos =>
+    - estim_var_eror =>
+    - r_cuadrado =>
+    - r_ajustado =>
+    - supuesto_normalidad =>
+    - supuesto_homocedasticidad =>
+    - int_confianza_betas =>
+    - p_valor_betas =>
+    - resumen_grafico =>
     '''
 
     def __init__(self, x: list[Any] | np.ndarray[Any, Any] | pd.DataFrame,
@@ -112,7 +124,7 @@ class RegresionLineal:
         stat, p_valor1 = shapiro(residuo)
         print("\nValor p normalidad:", p_valor1)
 
-    def supuestos_homocedasticidad(self) -> None:
+    def supuesto_homocedasticidad(self) -> None:
         '''
         Se verifica el supuesto de homocedasticidad de los residuos, de
         manera grafica y analitica por medio del p-valor.

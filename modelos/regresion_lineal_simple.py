@@ -7,7 +7,15 @@ from .regresion_lineal import RegresionLineal
 
 class RegresionLinealSimple(RegresionLineal):
     """
-    Documentar.
+    Primero se instancia (), luego:
+    - estimacion_betas =>
+    - graf_scatter_recta =>
+    - y_predict_x_new =>
+    - t_obs_b1 =>
+    - reg_rechazo_b1 =>
+    - p_valor_beta =>
+    - int_confianza_betas =>
+    - int_prediccion_y =>
     """
 
     def __init__(self, x, y) -> None:
