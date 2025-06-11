@@ -1,11 +1,15 @@
 import numpy as np
 from .regresion_lineal import RegresionLineal
 
+# TODO: terminar de adaptar a mi estilo
+# ^ (usabilidad y nombres de funciones mas sencillos)
+
 
 class RegresionLinealMultiple(RegresionLineal):
     """
-    Clase quepermite ajustar, predcir un modelo de Regresion Lineal
-    Multiple.
+    Primero se instancia (), luego:
+    - y_predict_x_new =>
+    - resumen_modelo =>
     """
     def __init__(self, x, y) -> None:
         super().__init__(x, y)

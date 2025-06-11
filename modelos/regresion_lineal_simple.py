@@ -4,7 +4,8 @@ import statsmodels.api as sm
 import scipy.stats as stats
 from .regresion_lineal import RegresionLineal
 
-# TODO: terminar de pasar a mi estilo
+# TODO: terminar de adaptar a mi estilo
+# ^ (usabilidad y nombres de funciones mas sencillos)
 
 
 class RegresionLinealSimple(RegresionLineal):

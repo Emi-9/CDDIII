@@ -5,13 +5,24 @@ import scipy.stats as stats
 import matplotlib.pyplot as plt
 from sklearn.metrics import auc
 
+# TODO: terminar de adaptar a mi estilo
+# ^ (usabilidad y nombres de funciones mas sencillos)
+
 
 class RegresionLogistica:
     """
-    Clase que ajusta un modelo de Regresion Logistica.
-    Requerimiento: Las variables categoricas sean codificadas antes de ajustar
-    el modelo.
-    Data es una base de datos con variables que sean cuantitativas.
+    Primero se instancia (), luego:
+    - separar_data_train_test =>
+    - ajustar_modelo =>
+    - parametros_modelo =>
+    - ajustados_y =>
+    - matriz_confusion =>
+    - especif_sensib =>
+    - curva_ROC =>
+    - predict_y =>
+    - auc =>
+    - modelo_resumen =>
+    - p_valor_betas =>
     """
 
     def __init__(self, data) -> None:
