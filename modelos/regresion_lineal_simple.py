@@ -7,7 +7,7 @@ from .regresion_lineal import RegresionLineal
 
 class RegresionLinealSimple(RegresionLineal):
     """
-    Clase regresion Lineal Simple, hereda funciones de Regresion Lineal.
+    Documentar.
     """
 
     def __init__(self, x, y) -> None:
