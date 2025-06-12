@@ -1,33 +1,39 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
 import scipy.stats as stats
+from typing import Any
 from .regresion_lineal import RegresionLineal
 
 # TODO: terminar de adaptar a mi estilo
 # ^ (usabilidad y nombres de funciones mas sencillos)
 
+# TODO: DRY => cuando una funcion funciona con listas, arrays y 
+#       dataframes, ponerlo en una variable. Ocupa mucho espacio.
+
 
 class RegresionLinealSimple(RegresionLineal):
     """
-    Primero se instancia (), luego:
+    Primero se instancia (toma x: predictora, y: respuesta), luego:
     - estimacion_betas =>
-    - graf_scatter_recta =>
-    - y_predict_x_new =>
-    - t_obs_b1 =>
+    - graficar_ajuste_lineal =>
+    - predecir_y =>
+    - estadistico_t_beta1 =>
     - reg_rechazo_b1 =>
     - p_valor_beta =>
-    - int_confianza_betas =>
-    - int_prediccion_y =>
+    - intervalo_confianza_beta1 =>
+    - intervalo_prediccion_y =>
     """
 
-    def __init__(self, x, y) -> None:
+    def __init__(self, x: list[Any] | np.ndarray[Any, Any] | pd.DataFrame,
+                 y: list[Any] | np.ndarray[Any, Any] | pd.DataFrame) -> None:
         super().__init__(x, y)
 
     def __main__(self):
         pass
 
-    def estimacion_betas(self):
+    def estimacion_betas(self) -> tuple[Any, Any]:
         """
         Retorna una tupla (b_0, b_1) de los estimadores de beta_0 y beta_1,
         usando minimos cuadrados.

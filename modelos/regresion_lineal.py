@@ -40,7 +40,7 @@ class RegresionLineal:
 
     def ajustar_modelo(self) -> sm_res:
         '''
-        Ajuta el modelo.
+        Ajusta el modelo.
         '''
         x = self.x if len(self.x) > 1 else [[1, self.x]]
         X = sm.add_constant(x, has_constant="skip")
@@ -53,127 +53,120 @@ class RegresionLineal:
         '''
         Retorna los ß estimados.
         '''
-        if self.resultado is None:
-            print("AJUSTAR EL MODELO ANTES")
-            return np.array([])
-        else:
+        if self.resultado is not None:
             return self.resultado.params
+        else:
+            raise RuntimeError("AJUSTAR EL MODELO ANTES")
 
     def val_ajustados(self) -> pd.Series | np.ndarray[Any, Any]:
         '''
         Retorna el valor predicho a partir del modelo ajustado.
         '''
-        if self.resultado is None:
-            print("AJUSTAR EL MODELO ANTES")
-            return np.array([])
-        else:
+        if self.resultado is not None:
             return self.resultado.fittedvalues
+        else:
+            raise RuntimeError("AJUSTAR EL MODELO ANTES")
 
     def residuos(self) -> pd.Series | np.ndarray[Any, Any]:
         '''
         Retorna los residuos (y vs ŷ).
         '''
-        if self.resultado is None:
-            print("AJUSTAR EL MODELO ANTES")
-            return np.array([])
-        else:
+        if self.resultado is not None:
             return self.resultado.resid
+        else:
+            raise RuntimeError("AJUSTAR EL MODELO ANTES")
 
     def estim_var_error(self) -> np.float64:
         '''
-        Retorna la estimacion de la varianza del error.
+        Retorna estimacion de la varianza del error.
         '''
-        return self.resultado.mse_resid
-
-    def r_cuadrado(self) -> np.float64 | None:
-        '''
-        Retorna R² el coeficiente de determinacion y, es una medida de la
-        proporcion de la variabilidad que explica el modelo ajustado.
-        valores de R² cercanos a 1 son valores deseables para una buena
-        calidad del ajuste.
-        '''
-        if self.resultado is None:
-            print("AJUSTAR EL MODELO ANTES")
-            return None
+        if self.resultado is not None:
+            return self.resultado.mse_resid
         else:
+            raise RuntimeError("AJUSTAR EL MODELO ANTES")
+
+    def r_cuadrado(self) -> np.float64:
+        '''
+        Retorna R² comun:
+        * (valores cercanos a 1 son deseables)
+        '''
+        if self.resultado is not None:
             return self.resultado.rsquared
-
-    def r_ajustado(self) -> np.float64 | None:
-        '''
-        Calcula el R² ajustado, es una correccion de  R²  para permitir
-        la comparacion de modelos con distinta cantidad de regresoras.
-        '''
-        if self.resultado is None:
-            print("AJUSTAR EL MODELO ANTES")
-            return None
         else:
+            raise RuntimeError("AJUSTAR EL MODELO ANTES")
+
+    def r_ajustado(self) -> np.float64:
+        '''
+        Retorna R² ajustado:
+        * (permite comparar modelos con distinta cantidad de regresores).
+        '''
+        if self.resultado is not None:
             return self.resultado.rsquared_adj
+        else:
+            raise RuntimeError("AJUSTAR EL MODELO ANTES")
 
     def supuesto_normalidad(self) -> None:
         '''
         Se verifica el supuesto de normalidad de los residuos, de manera
-        grafica usando qqplot y de manera analitica usando shapiro test, usando
-        el p-valor.
+        grafica usando qqplot, de manera analitica usando el test de shapiro
+        y el p-valor.
         '''
-        residuo = self.residuos()
-        # Grafico:
-        rg = AnalisisDescriptivo(residuo)
-        rg.QQplot()
+        if self.resultado is not None:
+            residuo = self.residuos()
+            # Grafico:
+            rg = AnalisisDescriptivo(residuo)
+            rg.QQplot()
 
-        # Normalidad:
-        stat, p_valor1 = shapiro(residuo)
-        print("\nValor p normalidad:", p_valor1)
+            # Normalidad:
+            stat, p_valor1 = shapiro(residuo)
+            print("\np-valor normalidad:", p_valor1)
+        else:
+            raise RuntimeError("AJUSTAR EL MODELO ANTES")
 
     def supuesto_homocedasticidad(self) -> None:
         '''
         Se verifica el supuesto de homocedasticidad de los residuos, de
         manera grafica y analitica por medio del p-valor.
         '''
-        # Grafico:
-        predichos = self.val_ajustados()
-        residuo = self.residuos()
+        if self.resultado is not None:
+            # Grafico:
+            predichos = self.val_ajustados()
+            residuo = self.residuos()
 
-        plt.scatter(predichos, residuo, marker="o", c="blue", s=30)
-        plt.axhline(y=0, color="r", linestyle="--")
-        plt.xlabel("Valores predichos")
-        plt.ylabel("Residuos")
-        plt.title("Gráfico de Residuos vs. Valores Predichos")
-        plt.show()
+            plt.scatter(predichos, residuo, marker="o", c="blue", s=30)
+            plt.axhline(y=0, color="r", linestyle="--")
+            plt.xlabel("Valores Predichos")
+            plt.ylabel("Residuos")
+            plt.title("Residuos vs Valores Predichos")
+            plt.show()
 
-        # Homocedasticidad:
-        X = sm.add_constant(self.x)
-        bp_test = het_breuschpagan(residuo, X)
-        bp_value = bp_test[1]
-        print("\nValor p Homocedasticidad: ", bp_value)
+            # Homocedasticidad:
+            X = sm.add_constant(self.x)
+            bp_test = het_breuschpagan(residuo, X)
+            bp_value = bp_test[1]
+            print("\np-valor homocedasticidad: ", bp_value)
+        else:
+            raise RuntimeError("AJUSTAR EL MODELO ANTES")
 
     def int_confianza_betas(self, alfa: float) -> None:
         '''
-        funcion inicial: int_confianza_beta1(alfa, beta_1,
-        var_estimada, t_crit)
-        Calcula el intervalor de confianza para beta_1, a partir de un alfa
-        (nivel de significacion) dado.
+        Retorna el intervalo de confianza para beta_1:
+        - alfa => nivel de significancia.
         '''
-        if self.resultado is None:
-            print("AJUSTAR EL MODELO ANTES")
+        if self.resultado is not None:
+            return self.resultado.conf_int(alpha=alfa)
         else:
-            IC = self.resultado.conf_int(alpha=alfa)
-            print("Los Intervalos de confianza para los"
-                  f"estimadores de beta son: {IC}")
+            raise RuntimeError("AJUSTAR EL MODELO ANTES")
 
     def p_valor_betas(self, b_i: float = 0,
                       i: int = 1) -> np.ndarray[Any, Any] | None:
         '''
-        Es una funcion que retorna el p-valor de un test de hipotesis:
-        H_0: beta_i = k vs H_1 beta_i != k
-        b_i: es el numero k sobre el cual se quiere hacer el test. Por
-        default es 0.
-        i: es el indice del beta que se quiere testear, es un natural i
-        (i = 0, ..., n). Por default es 1.
+        Retorna el p-valor del test de hipotesis:
+        * H_0: beta_i = k vs H_1: beta_i != k.
+        - b_i => es el numero k sobre el cual se quiere hacer el test.
+        - i => es el indice del beta que se quiere testear (es un entero).
         '''
-        if self.resultado is None:
-            print("AJUSTAR EL MODELO ANTES")
-            return None
-        else:
+        if self.resultado is not None:
             res = self.resultado
             SE_est = res.bse
             coef_xi = res.params[i]
@@ -181,15 +174,19 @@ class RegresionLineal:
             X = res.model.exog
             grados_libertad = len(X[:, i]) - 2
             return 2 * stats.t.sf(abs(t_obs), df=grados_libertad)
+        else:
+            raise RuntimeError("AJUSTAR EL MODELO ANES")
 
     def resumen_grafico(self, z) -> None:
         '''
-        Grafico de dispersion de una variable cuantitativa predictora vs
-        respuesta.
-        z es la variable cuantitativa predictora que se quiere graficar.
+        Retorna scatter plot (predictora vs respuesta):
+        - z => variable cuantitativa predictora.
         '''
-        plt.scatter(z, self.y, marker="o", c="blue", s=30)
-        plt.xlabel("Variable Predictora")
-        plt.ylabel("Variable Respuesta")
-        plt.title("Gráfico de Dispersion: Var.Predict. vs. Var. Respuesta")
-        plt.show()
+        if self.resultado is not None:
+            plt.scatter(z, self.y, marker="o", c="blue", s=30)
+            plt.xlabel("Variable Predictora")
+            plt.ylabel("Variable Respuesta")
+            plt.title("Variable Predictora vs Variable Respuesta")
+            plt.show()
+        else:
+            raise RuntimeError("AJUSTAR EL MODELO ANTES")
