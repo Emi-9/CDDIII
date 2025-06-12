@@ -4,6 +4,7 @@ import statsmodels.api as sm
 import scipy.stats as stats
 import matplotlib.pyplot as plt
 from sklearn.metrics import auc
+from typing import Any
 
 # TODO: terminar de adaptar a mi estilo
 # ^ (usabilidad y nombres de funciones mas sencillos)
@@ -25,7 +26,7 @@ class RegresionLogistica:
     - p_valor_betas =>
     """
 
-    def __init__(self, data) -> None:
+    def __init__(self, data: Any) -> None:  # TODO: anotaciones
         self.data = data
         self.data_train = None
         self.data_test = None
@@ -38,7 +39,8 @@ class RegresionLogistica:
     def __main__(self):
         pass
 
-    def separar_data_train_test(self, seed=10, ptje_test=0.20):
+    # TODO: anotaciones
+    def separar_data_train_test(self, seed=10, ptje_test=0.20) -> Any:
         """
         Funcion que separa data, de manera aleatoria, en set de train y test.
         seed: es la semilla, por default es 10.
@@ -48,7 +50,8 @@ class RegresionLogistica:
         random.seed(seed)
         cant_filas_extraer = int(self.data.shape[0] * ptje_test)
         # Crear un vector de números aleatorios entre 0 y len(data)
-        cuales = random.sample(range(int(self.data.shape[0])), cant_filas_extraer)
+        cuales = random.sample(range(int(self.data.shape[0])),
+                               cant_filas_extraer)
         # datos train:
         self.data_train = self.data.drop(cuales)
         # datos test:
@@ -56,6 +59,7 @@ class RegresionLogistica:
 
         return self.data_test, self.data_train
 
+    # TODO: anotaciones
     def ajustar_modelo(self, x_train, y_train, x_test, y_test):
         """
         Se ajusta el modelo de Regresión Logistica.
@@ -71,10 +75,10 @@ class RegresionLogistica:
         self.resultado = modelo.fit()
         return self.resultado
 
+    # TODO: anotaciones
     def parametros_modelo(self):
         """
-        Retorna las estimaciones de los betas
-        del modelo.
+        Retorna las estimaciones de los betas del modelo.
         """
         if self.resultado is None:
             print("Falta ajustar el modelo, usar ajustar_modelo()")

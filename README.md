@@ -9,23 +9,37 @@
 ## Estructura / Características:
 
 - **analisis**:
+
     - **descriptivo**:
         - `densidad` (estimacion de densidades por kernel)
         - `evalua_histograma` ()
         - `QQplot` (genera un QQ-Plot)
+
     - **generadora**:
         - `teorica` (genera un conjunto de datos siguiedo una distribucion exacta)
         - `azar` (genera un conjunto muestral de datos siguiendo una distribucion)
 
 - **modelos**:
+
     - **regresion_lineal_simple**:
-        - `completar` ()
+        - `calcular_betas` ()
+        - `resumen_grafico_simple` ()
+        - `predecir_y` ()
+        - `estadistico_t_beta1` ()
+        - `region_rechazo_beta1` ()
+        - `p_valor_beta1` ()
+        - `intervalo_confianza_beta1` ()
+        - `intervalo_prediccion_y` ()
+
     - **regresion_lineal_multiple**:
-        - `completar` ()
+        - `predecir_y` ()
+        - `resumen_modelo` ()
+
     - **regresion_logistica**:
         - `completar` ()
 
 - **utils**:
+
     - **resumen_numerico**:
         - `ver` (genera un resumen numerico del conjunto de datos)
 
