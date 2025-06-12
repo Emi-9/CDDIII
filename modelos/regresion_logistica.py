@@ -13,15 +13,15 @@ from typing import Any
 class RegresionLogistica:
     """
     Primero se instancia (), luego:
-    - separar_data_train_test =>
+    - dividir_datos => particiona en train y test.
     - ajustar_modelo =>
     - parametros_modelo =>
-    - ajustados_y =>
+    - val_ajustados =>
     - matriz_confusion =>
-    - especif_sensib =>
+    - especificidad_sensibilidad =>
     - curva_ROC =>
-    - predict_y =>
-    - auc =>
+    - predecir_y =>
+    - AUC =>
     - modelo_resumen =>
     - p_valor_betas =>
     """
@@ -40,23 +40,23 @@ class RegresionLogistica:
         pass
 
     # TODO: anotaciones
-    def separar_data_train_test(self, seed=10, ptje_test=0.20) -> Any:
+    def dividir_datos(self, seed=10, particion_test=0.20) -> Any:
         """
         Separa los datos al azar (train y test):
         - seed: semilla para replicabilidad.
-        - ptje_test: valor entre 0 y 1, es la proporcion
-                     que deja para el conjunto test (tomado de self.data).
+        - particion_test: es la proporcion que deja para test (valor: 0 - 1).
         """
         random.seed(seed)
-        cant_filas_extraer = int(self.data.shape[0] * ptje_test)
-        cuales = random.sample(range(int(self.data.shape[0])),
-                               cant_filas_extraer)
-        self.data_train = self.data.drop(cuales)
-        self.data_test = self.data.iloc[cuales]
+        cant_filas_extraer = int(self.data.shape[0] * particion_test)
+        pos = random.sample(range(int(self.data.shape[0])),
+                            cant_filas_extraer)
+        self.data_train = self.data.drop(pos)
+        self.data_test = self.data.iloc[pos]
 
         return self.data_test, self.data_train
 
-    # TODO: anotaciones
+    # TODO: anotaciones.
+    # TODO: checkear si no hace override de regresion lineal.
     def ajustar_modelo(self, x_train, y_train, x_test, y_test) -> Any:
         """
         Ajusta el modelo.
@@ -75,7 +75,7 @@ class RegresionLogistica:
     # TODO: anotaciones
     def parametros_modelo(self) -> Any:
         """
-        Retorna las estimaciones de los betas.
+        Retorna las estimaciones de los ß.
         """
         if self.resultado is not None:
             return self.resultado.params
@@ -83,87 +83,84 @@ class RegresionLogistica:
             raise RuntimeError("AJUSTAR EL MODELO ANTES")
 
     # TODO: anotaciones.
-    def ajustados_y(self, prob=0.5) -> Any:
+    def val_ajustados(self, corte=0.5) -> Any:
         """
-        Calula el valor predicho a partir del modelo ajustado
-        de regresion lineal.
-        prob: es el umbral de probabilidad sobre el cual se considera
-        para formar el y_ajustado.
-        Retorna una tupla: y_ajustado_binary, ajust_y_prob
-        """
-        if self.resultado is None:
-            print("AJUSTAR EL MODELO ANTES")
-        else:
-            X_test = sm.add_constant(self.x_test)
-            ajust_y_prob = self.resultado.predict(X_test)
-            y_ajustado_binary = [1 if k >= prob else 0 for k in ajust_y_prob]
-
-            return y_ajustado_binary, ajust_y_prob
-
-    # TODO: anotaciones.
-    def matriz_confusion(self, prob=0.5) -> Any:
-        """
-        Retorna la Matriz de Confusión:
-                    |tp     fp|
-                    |fn     tn|
-        por medio de una lista de la forma [tp, fp, fn, tn]
-        prob es la probabilidad.
+        Retorna el valor predicho:
+        - corte => umbral para decidir si es 0 o 1.
         """
         if self.resultado is not None:
-            y_ajustado = self.ajustados_y(prob)[0]
+            X_test = sm.add_constant(self.x_test)
+            y_ajustado = self.resultado.predict(X_test)
+            y_ajustado_binary = [1 if x >= corte else 0 for x in y_ajustado]
+            return y_ajustado_binary, y_ajustado
+        else:
+            raise RuntimeError("AJUSTAR EL MODELO ANTES")
+
+    # TODO: anotaciones.
+    def matriz_confusion(self, corte=0.5) -> Any:
+        """
+        Retorna la Matriz de Confusión:
+        *            |vp     fp|
+        *            |fn     vn|
+        - corte => umbral.
+        - vp => verdadero positivo.
+        - fp => falso positivo.
+        - fn => falso negativo.
+        - vn => verdadero negativo.
+        """
+        if self.resultado is not None:
+            y_ajustado = self.val_ajustados(corte)[0]
             n = len(self.y_test)
-            tp = 0
-            tn = 0
+            vp = 0
             fp = 0
             fn = 0
+            vn = 0
             for i in range(n):
                 if y_ajustado[i] == self.y_test.iloc[i]:
                     if y_ajustado[i] == 1:
-                        tp = tp + 1
+                        vp = vp + 1
                     else:
-                        tn = tn + 1
+                        vn = vn + 1
                 else:
                     if y_ajustado[i] == 1 and self.y_test.iloc[i] == 0:
                         fp = fp + 1
                     else:
                         fn = fn + 1
-            return [tp, fp, fn, tn]
+            return [vp, fp, fn, vn]
         else:
-            print("AJUSTAR EL MODELO ANTES")
+            raise RuntimeError("AJUSTAR EL MODELO ANTES")
 
     # TODO: anotaciones.
-    def especif_sensib(self, prob=0.5) -> Any:
+    def especificidad_sensibilidad(self, corte=0.5) -> Any:
         """
-        Retorna una lista con la sensibilidad y especifisidad del modelo
-        Regresión Logística, como sigue: [sensibilidad, especificidad].
-        prob: es el umbral de probabilidad sobre el cual se determina si una
-        respuesta es 0 o 1. Default = 0.5
+        Retorna la sensibilidad y especifisidad del modelo
+        - corte => umbral de probabilidad sobre el cual se determina si una
+        respuesta es 0 o 1.
         """
-        matrix_conf = self.matriz_confusion(prob)
-        tp = matrix_conf[0]
+        matrix_conf = self.matriz_confusion(corte)
+        vp = matrix_conf[0]
         fp = matrix_conf[1]
         fn = matrix_conf[2]
-        tn = matrix_conf[3]
+        vn = matrix_conf[3]
 
-        sensibilidad = tp / (tp + fn)
-        especificidad = tn / (fp + tn)
+        sensibilidad = vp / (vp + fn)
+        especificidad = vn / (fp + vn)
 
         return (sensibilidad, especificidad)
 
     # TODO: anotaciones.
-    def curva_ROC(self, prob=0.5) -> Any:
+    def curva_ROC(self, corte=0.5) -> Any:
         """
-        prob: es el umbral de probabilidad sobre el cual se determina si una
-        respuesta es 0 o 1.
+        corte => umbral.
         """
         if self.resultado is not None:
             grid = np.linspace(0, 1, 100)
             l1 = []
             l2 = []
-            prediccion = self.ajustados_y(prob)[1]
+            prediccion = self.val_ajustados(corte)[1]
             for j in grid:
                 y_pred_binary = [1 if k >= j else 0 for k in prediccion]
-                metrica = self.especif_sensib(j)
+                metrica = self.especificidad_sensibilidad(j)
                 especificidad = metrica[1]
                 sensibilidad = metrica[0]
                 l1.append(1-especificidad)
@@ -177,22 +174,21 @@ class RegresionLogistica:
             plt.title("Curva ROC")
             plt.show()
         else:
-            print("AJUSTAR EL MODELO ANTES")
+            raise RuntimeError("AJUSTAR EL MODELO ANTES")
 
     # TODO: anotaciones.
-    def predict_y(self, x_new, prob=0.5) -> Any:
+    def predecir_y(self, x_new, corte=0.5) -> Any:
         """
-        x_new es una lista, con el/los valor/es que se quiere predecir.
-        La funcion retorna el valor de predicciòn para un x_new.
-        prob: es el umbral de probabilidad sobre el cual se determina si una
-         respuesta es 0 o 1.
+        Retorna ŷ a partir de un x_new:
+        - x_new => valores que se quieren predecir.
+        - corte => umbral.
         """
         X_new = x_new.copy()
         X_new.insert(0, 1)
         aux = np.dot(self.resultado.params, X_new)
         pred = np.exp(aux)/(1 + np.exp(aux))
 
-        if pred >= prob:
+        if pred >= corte:
             y_pred_bin = 1
         else:
             y_pred_bin = 0
@@ -200,17 +196,17 @@ class RegresionLogistica:
         return y_pred_bin
 
     # TODO: anotaciones.
-    def auc(self, prob=0.5) -> Any:
+    # TODO: implementarlo de otra manera, los prints son horribles
+    def AUC(self) -> Any:
         """
-        Imprime la evaluacion del clasificador, teniendo en cuenta la tabla
-        dada en teoría.
+        Imprime la evaluacion del clasificador.
         """
         if self.resultado is not None:
             grid = np.linspace(0, 1, 100)
             especificidad_list = []
             sensibilidad_list = []
             for k in grid:
-                metrica = self.especif_sensib(k)
+                metrica = self.especificidad_sensibilidad(k)
                 especificidad = metrica[1]
                 sensibilidad = metrica[0]
                 especificidad_list.append(1-especificidad)
@@ -218,41 +214,39 @@ class RegresionLogistica:
 
             roc_auc = auc(1-np.array(especificidad_list), sensibilidad_list)
             if 0.90 < roc_auc <= 1:
-                print(f"El clasificador es Excelente, {roc_auc}")
+                print(f"El clasificador es excelente, {roc_auc}")
             elif 0.80 < roc_auc <= 0.90:
-                print(f"El clasificador es Bueno, {roc_auc}")
+                print(f"El clasificador es bueno, {roc_auc}")
             elif 0.70 < roc_auc <= 0.80:
-                print(f"El clasificador es Regular, {roc_auc}")
+                print(f"El clasificador es regular, {roc_auc}")
             elif 0.60 < roc_auc <= 0.70:
-                print(f"El clasificador es Pobre, {roc_auc}")
+                print(f"El clasificador es pobre, {roc_auc}")
             elif 0.50 < roc_auc <= 0.60:
-                print(f"El clasificador es Fallido, {roc_auc}")
+                print(f"El clasificador es fallido, {roc_auc}")
             else:
-                print(f"El clasificador Muy Malo, {roc_auc}")
+                print(f"El clasificador es muy malo, {roc_auc}")
         else:
-            print("AJUSTAR EL MODELO ANTES")
+            raise RuntimeError("AJUSTAR EL MODELO ANTES")
 
     # TODO: anotaciones.
     def modelo_resumen(self) -> Any:
         """
-        Imprime el summary del modelo ajustado
+        Imprime el summary del modelo ajustado.
         """
         if self.resultado is not None:
             print(self.resultado.summary())
         else:
-            print("AJUSTAR EL MODELO ANTES")
+            raise RuntimeError("AJUSTAR EL MODELO ANTES")
 
     # TODO: anotaciones.
-    def p_valor_betas(self, b_i=0, i=1) -> Any:
+    def p_valor_betas(self, b_i: float = 0, i: int = 1) -> Any:
         """
-        Es una funcion que retorna el p-valor de un test de hipotesis:
-        H_0: beta_i = k vs H_1 beta_i != k
-        b_i: es el numero k sobre el cual se quiere hacer el test.
-        i: es el indice del beta que se quiere testear (es un entero).
+        Retorna el p-valor del test de hipotesis:
+        * H_0: beta_i = k vs H_1 beta_i != k
+        - b_i => numero k sobre el cual se quiere hacer el test.
+        - i => indice del beta que se quiere testear (es un entero).
         """
-        if self.resultado is None:
-            print("AJUSTAR EL MODELO ANTES")
-        else:
+        if self.resultado is not None:
             res = self.resultado
             SE_est = res.bse
             coef_xi = res.params[i]
@@ -264,3 +258,5 @@ class RegresionLogistica:
 
             print(f"p-valor: {p_valor}")
             print(f"t_observado: {t_obs}")
+        else:
+            raise RuntimeError("AJUSTAR EL MODELO ANTES")
