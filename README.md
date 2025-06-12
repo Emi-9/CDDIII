@@ -31,7 +31,9 @@
 
 ## Instalación:
 
- Cloná el repositorio y usalo.
+ - Cloná el repositorio y usalo.
+ - Instalalo con pip
+    `pip install git+https://github.com/Emi-9/CDDIII`
 
 ## Ejemplo de uso:
 
