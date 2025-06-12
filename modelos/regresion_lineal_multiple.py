@@ -1,4 +1,5 @@
 import numpy as np
+import statsmodels.api as sm
 from .regresion_lineal import RegresionLineal
 
 # TODO: terminar de adaptar a mi estilo
@@ -8,7 +9,7 @@ from .regresion_lineal import RegresionLineal
 class RegresionLinealMultiple(RegresionLineal):
     """
     Primero se instancia (), luego:
-    - y_predict_x_new =>
+    - predecir_y =>
     - resumen_modelo =>
     """
     def __init__(self, x, y) -> None:
@@ -17,7 +18,7 @@ class RegresionLinealMultiple(RegresionLineal):
     def __main__(self):
         pass
 
-    def y_predict_x_new(self, x_new):
+    def predecir_y(self, x_new):
         """
         Retorna el valor de un y_predicho del modelo de regresion
         a partir de un nuevo valor de x.

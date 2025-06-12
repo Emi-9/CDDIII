@@ -8,6 +8,8 @@ from statsmodels.stats.diagnostic import het_breuschpagan
 from typing import Any
 from analisis import AnalisisDescriptivo
 
+# TODO: buscar una mejor manera de testear si se ajusto el modelo (DRY).
+
 sm_res = sm.regression.linear_model.RegressionResultsWrapper
 # Es lo que retorna un modelo ajustado de sm, ignorar.
 
@@ -179,7 +181,7 @@ class RegresionLineal:
 
     def resumen_grafico(self, z) -> None:
         '''
-        Retorna scatter plot (predictora vs respuesta):
+        Grafica scatter plot (predictora vs respuesta):
         - z => variable cuantitativa predictora.
         '''
         if self.resultado is not None:
