@@ -7,8 +7,7 @@ from statsmodels.stats.anova import anova_lm
 from scipy import stats
 
 
-class Anova:
-  def generic_anova_analysis(df, response_col, factor_col, alpha=0.05):
+def anova(df, response_col, factor_col, alpha=0.05):
     """
     Realiza un análisis ANOVA completo sobre un DataFrame.
 
