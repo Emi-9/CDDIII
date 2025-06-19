@@ -19,9 +19,13 @@ def anova(df, response_col, factor_col, alpha=0.05):
     - alpha         : nivel de significación para tests e intervalos (default 0.05).
 
     Extra:
-    - Armar el DataFrame asi
+    - Armar el DataFrame asi:
     * respuesta = [datos]
     * factores = [factor1] * (cantidad_factor1) + [factorn] * (cantidad_factorn)
+
+    - Supuestos:
+    * independecia, normalidad, homocedasticidad, Y_ij = mu + alpha_i + e_ij
+    * h_0: todos misma media
     """
 
     # 1. Boxplot para detectar diferencias
