@@ -5,6 +5,7 @@ import statsmodels.formula.api as smf
 import statsmodels.api as sm
 from statsmodels.stats.anova import anova_lm
 from scipy import stats
+from analisis.descriptivo import AnalisisDescriptivo
 
 
 def anova(df, response_col, factor_col, alpha=0.05):
@@ -16,6 +17,11 @@ def anova(df, response_col, factor_col, alpha=0.05):
     - response_col  : nombre de la columna respuesta (string).
     - factor_col    : nombre de la columna factor (string).
     - alpha         : nivel de significación para tests e intervalos (default 0.05).
+
+    Extra:
+    - Armar el DataFrame asi
+    * respuesta = [datos]
+    * factores = [factor1] * (cantidad_factor1) + [factorn] * (cantidad_factorn)
     """
 
     # 1. Boxplot para detectar diferencias
@@ -69,6 +75,7 @@ def anova(df, response_col, factor_col, alpha=0.05):
     sm.qqplot(residuos, line='45')
     plt.title('QQ-plot de residuos')
     plt.show()
+    AnalisisDescriptivo(residuos).QQplot()
     stat_sw, p_sw = stats.shapiro(residuos)
     print(f"Shapiro–Wilk p-valor: {p_sw:.4f}")
     if p_sw < alpha:
