@@ -23,9 +23,21 @@ def anova(df, response_col, factor_col, alpha=0.05):
     * respuesta = [datos]
     * factores = [factor1] * (cantidad_factor1) + [factorn] * (cantidad_factorn)
 
+    - Retorna:
+    * residuos
+    * resultado_full (modelo)
+    * graficos (null)
+
     - Supuestos:
     * independecia, normalidad, homocedasticidad, Y_ij = mu + alpha_i + e_ij
     * h_0: todos misma media
+
+    - model1 vs model2
+    * model1: todo
+    * model2: solo constante
+
+    - Otro test:
+    * statsmodels.stats.anova -> anova_lm(model2, model1)
     """
 
     # 1. Boxplot para detectar diferencias
